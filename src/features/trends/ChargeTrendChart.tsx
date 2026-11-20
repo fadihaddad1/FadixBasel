@@ -110,7 +110,8 @@ export function ChargeTrendChart({ points, baseline }: { points: ChargePoint[]; 
         </motion.g>
         {/* baseline */}
         <line x1={pad.l} x2={pad.l + iw} y1={y(baseline)} y2={y(baseline)} stroke="#EEF0F5" strokeOpacity={0.5} strokeDasharray="5 5" />
-        <text x={pad.l + iw} y={y(baseline) - 6} fill="#B4BBC9" fontSize="10" textAnchor="end">
+        <rect x={pad.l + 4} y={y(baseline) - 19} width={92} height={15} rx={7} fill="#11141B" fillOpacity={0.85} />
+        <text x={pad.l + 10} y={y(baseline) - 8} fill="#B4BBC9" fontSize="10">
           14-day avg {Math.round(baseline)}%
         </text>
         {hover !== null && <line x1={hx} x2={hx} y1={pad.t} y2={pad.t + ih} stroke="rgba(255,255,255,0.18)" />}
