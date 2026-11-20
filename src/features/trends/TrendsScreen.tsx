@@ -126,7 +126,7 @@ export function TrendsScreen() {
   const insights = useMemo(() => buildInsights(history, logs), [history, logs]);
 
   return (
-    <div data-testid="trends-screen" className="mx-auto w-full max-w-5xl space-y-4 pb-6 sm:space-y-5">
+    <div data-testid="trends-screen" className="mx-auto w-full min-w-0 max-w-5xl space-y-4 pb-6 sm:space-y-5">
       <motion.header {...rise(0)} className="pt-1">
         <div className="eyebrow">Your progress</div>
         <h1 className="mt-1 font-display text-2xl font-extrabold text-ink-100 sm:text-3xl">Trends & Burnout Shield</h1>
@@ -263,13 +263,12 @@ export function TrendsScreen() {
             <Activity size={18} className="text-steady" />
             <h2 className="font-display text-lg font-bold">Weekly training load</h2>
           </div>
-          <p className="mt-1 text-sm text-ink-400">Effort × minutes, added up per week. The dashed line is your usual week.</p>
+          <p className="mt-1 text-sm text-ink-400">Effort × minutes, added up per week. The dashed line is your usual week ({fmt(shield.chronicLoad)}).</p>
           <div className="relative mt-6 h-40">
             <div
               className="pointer-events-none absolute inset-x-0 z-10 border-t border-dashed border-ink-300/60"
               style={{ bottom: `${(shield.chronicLoad / maxLoad) * 82}%` }}
             >
-              <span className="absolute -top-4 right-0 rounded bg-ink-900/80 px-1 text-[10px] text-ink-400">usual {fmt(shield.chronicLoad)}</span>
             </div>
             <div className="flex h-full items-end gap-3">
               {weeks.map((w, i) => (

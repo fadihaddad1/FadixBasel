@@ -15,7 +15,7 @@ const STEPS: { icon: LucideIcon; title: string; color: string; at: number }[] = 
   { icon: Bot, title: 'Ask Your AI Pocket Coach', color: '#7C8CFF', at: 0.48 },
 ];
 
-const COACH_REPLY = 'Easy 20-min jog today — save the intervals for Thursday.';
+const COACH_REPLY = 'Easy 20-min jog. Save intervals for Thu.';
 
 function Preview({ i, t, on }: { i: number; t: number; on: boolean }) {
   if (i === 0) {
@@ -46,7 +46,7 @@ function Preview({ i, t, on }: { i: number; t: number; on: boolean }) {
     return (
       <div className="mt-3 flex h-12 items-center gap-2 rounded-2xl bg-white/[0.05] px-3">
         <Dumbbell className="h-4 w-4" style={{ color: ZONE_META.steady.color }} />
-        <span className="truncate text-sm font-semibold text-ink-100">Legs · Back Squat 4×5</span>
+        <span className="truncate text-sm font-semibold text-ink-100">Back Squat 4×5</span>
         <span className="ml-auto shrink-0 rounded-full px-2 py-0.5 text-[11px] font-bold" style={{ color: ZONE_META.steady.color, background: ZONE_META.steady.soft }}>
           −15%
         </span>
@@ -101,7 +101,7 @@ export function WalkthroughScene({ t, wide, onStart, onLaunch }: Props) {
                   <div className="text-[11px] font-bold uppercase tracking-[0.16em]" style={{ color: on ? s.color : '#8A93A6' }}>
                     Step {i + 1}
                   </div>
-                  <div className="truncate font-display text-base font-extrabold text-ink-100 md:text-lg">{s.title}</div>
+                  <div className="font-display text-base font-extrabold leading-tight text-ink-100 md:text-lg">{s.title}</div>
                 </div>
               </div>
               <Preview i={i} t={t} on={on} />

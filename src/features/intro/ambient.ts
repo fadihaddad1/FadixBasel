@@ -1,5 +1,10 @@
 type AudioCtor = typeof AudioContext;
 
+function getAudioCtor(): AudioCtor | undefined {
+  if (typeof window === 'undefined') return undefined;
+  return window.AudioContext ?? (window as unknown as { webkitAudioContext?: AudioCtor }).webkitAudioContext;
+}
+
 /**
  * A very quiet ambient pad: two detuned oscillators (plus a soft fifth) through a low-pass
  * filter, with a slow LFO breathing on the gain. Created only from a user click.
@@ -10,9 +15,7 @@ export class AmbientPad {
   private nodes: AudioScheduledSourceNode[] = [];
 
   static supported(): boolean {
-    if (typeof window === 'undefined') return false;
-    const w = window as Window & { webkitAudioContext?: AudioCtor };
-    return typeof (w.AudioContext ?? w.webkitAudioContext) === 'function';
+    return typeof getAudioCtor() === 'function';
   }
 
   get running() {
@@ -22,8 +25,7 @@ export class AmbientPad {
   start(volume = 0.045): boolean {
     if (this.ctx) return true;
     try {
-      const w = window as Window & { webkitAudioContext?: AudioCtor };
-      const Ctor = w.AudioContext ?? w.webkitAudioContext;
+      const Ctor = getAudioCtor();
       if (!Ctor) return false;
       const ctx = new Ctor();
       const now = ctx.currentTime;

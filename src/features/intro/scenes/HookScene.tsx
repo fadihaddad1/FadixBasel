@@ -21,7 +21,7 @@ const NOISE: { text: string; x: number; y: number; d: number }[] = [
   { text: 'Stress 62?', x: 156, y: 26, d: 0.2 },
   { text: 'RHR 58', x: -92, y: 74, d: 0.6 },
   { text: 'Readiness 3.1σ', x: 96, y: 76, d: 1 },
-  { text: 'Sleep score 71/84?', x: 0, y: -86, d: 0.3 },
+  { text: 'Sleep score 71/84?', x: 0, y: 112, d: 0.3 },
 ];
 
 export function HookScene({ t, wide }: SceneProps) {

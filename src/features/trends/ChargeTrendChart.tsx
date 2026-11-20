@@ -67,11 +67,11 @@ export function ChargeTrendChart({ points, baseline }: { points: ChargePoint[]; 
   const r = n > 14 ? 3.5 : 4.5;
 
   return (
-    <div ref={wrapRef} className="relative w-full select-none">
+    <div ref={wrapRef} className="relative w-full min-w-0 select-none" style={{ height: H }}>
       <svg
         width={width}
         height={H}
-        className="block touch-pan-y"
+        className="absolute left-0 top-0 block touch-pan-y"
         onPointerMove={onMove}
         onPointerDown={onMove}
         onPointerLeave={() => setHover(null)}

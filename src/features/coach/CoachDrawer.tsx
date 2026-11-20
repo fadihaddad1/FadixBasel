@@ -121,8 +121,10 @@ function WorkoutCardView({ card, state, onApply, onDismiss }: { card: CoachWorko
         {card.rows.map((r) => (
           <li key={r.name} className="flex items-center gap-2.5 py-1.5 text-sm">
             <span className="w-5 text-center">{r.emoji}</span>
-            <span className="min-w-0 flex-1 truncate text-ink-100">{r.name}</span>
-            <span className="shrink-0 text-right text-[11px] text-ink-400">{r.detail}</span>
+            <span className="min-w-0 flex-1">
+              <span className="block truncate text-ink-100">{r.name}</span>
+              <span className="block truncate text-[11px] text-ink-400">{r.detail}</span>
+            </span>
           </li>
         ))}
       </ul>

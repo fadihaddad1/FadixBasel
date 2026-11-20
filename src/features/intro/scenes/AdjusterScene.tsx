@@ -89,7 +89,7 @@ function ShieldMeter({ v, wide }: { v: Variant; wide: boolean }) {
   const r = 96;
   const color = v.needle < 0.33 ? '#7C8CFF' : v.needle < 0.72 ? ZONE_META.prime.color : ZONE_META.recharge.color;
   return (
-    <div className="card flex flex-col items-center p-3 md:p-6" style={{ width: wide ? 300 : '100%' }}>
+    <div className="card flex flex-col items-center p-3 md:p-6" style={{ width: wide ? 330 : '100%' }}>
       <div className="eyebrow flex items-center gap-1.5">
         <ShieldCheck className="h-3.5 w-3.5" /> Burnout Shield
       </div>
@@ -117,7 +117,7 @@ function ShieldMeter({ v, wide }: { v: Variant; wide: boolean }) {
         <circle cx={cx} cy={cy} r={9} fill="#EEF0F5" />
         <circle cx={cx} cy={cy} r={4} fill="#0B0D12" />
       </svg>
-      <div className="mt-1 grid w-full grid-cols-3 text-center text-[10px] font-semibold uppercase tracking-[0.1em] text-ink-400 md:text-[11px]">
+      <div className="mt-1 grid w-full grid-cols-3 text-center text-[10px] font-semibold uppercase tracking-[0.04em] text-ink-400 md:text-[11px]">
         {BANDS.map((b) => (
           <span key={b.label} style={{ color: (v.needle >= b.from && v.needle < b.to) || (b.to === 1 && v.needle >= 1) ? b.color : undefined }}>
             {b.label}
