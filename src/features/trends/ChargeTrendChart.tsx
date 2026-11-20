@@ -100,17 +100,14 @@ export function ChargeTrendChart({ points, baseline }: { points: ChargePoint[]; 
           </g>
         ))}
         <path d={area} fill="url(#dg-charge-area)" />
-        <motion.path
+        <motion.g
           key={n}
-          d={line}
-          fill="none"
-          stroke="url(#dg-charge-line)"
-          strokeWidth={2.5}
-          strokeLinecap="round"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
+          initial={{ clipPath: 'inset(0% 100% 0% 0%)' }}
+          animate={{ clipPath: 'inset(0% 0% 0% 0%)' }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        />
+        >
+          <path d={line} fill="none" stroke="url(#dg-charge-line)" strokeWidth={2.5} strokeLinecap="round" />
+        </motion.g>
         {/* baseline */}
         <line x1={pad.l} x2={pad.l + iw} y1={y(baseline)} y2={y(baseline)} stroke="#EEF0F5" strokeOpacity={0.5} strokeDasharray="5 5" />
         <text x={pad.l + iw} y={y(baseline) - 6} fill="#B4BBC9" fontSize="10" textAnchor="end">

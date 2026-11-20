@@ -177,7 +177,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       setCompleted(new Set());
     },
     zoneOverride,
-    setZoneOverride,
+    setZoneOverride: (z) => {
+      setZoneOverride(z);
+      setCompleted(new Set());
+    },
     workout,
     completedExercises,
     toggleExercise: (id) =>
