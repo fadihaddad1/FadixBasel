@@ -1,4 +1,5 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useSpring } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import { Dumbbell, Footprints, Gauge, ShieldCheck, Wind } from 'lucide-react';
 import { ChargeRing } from '../../../components/ui/ChargeRing';
 import { ZONE_META } from '../../../utils/recoveryEngine';
@@ -82,11 +83,23 @@ function arcPath(cx: number, cy: number, r: number, a0: number, a1: number) {
   return `M ${x0} ${y0} A ${r} ${r} 0 0 1 ${x1} ${y1}`;
 }
 
+/** Spring-animated angle, applied as an SVG rotate(deg cx cy) so the pivot is exact in every browser. */
+function useNeedle(target: number) {
+  const spring = useSpring(target, { stiffness: 90, damping: 14 });
+  const [deg, setDeg] = useState(target);
+  useEffect(() => {
+    spring.set(target);
+  }, [spring, target]);
+  useEffect(() => spring.on('change', setDeg), [spring]);
+  return deg;
+}
+
 function ShieldMeter({ v, wide }: { v: Variant; wide: boolean }) {
   const w = 240;
   const cx = w / 2;
   const cy = 120;
   const r = 96;
+  const deg = useNeedle(-90 + v.needle * 180);
   const color = v.needle < 0.33 ? '#7C8CFF' : v.needle < 0.72 ? ZONE_META.prime.color : ZONE_META.recharge.color;
   return (
     <div className="card flex flex-col items-center p-3 md:p-6" style={{ width: wide ? 330 : '100%' }}>
@@ -105,15 +118,9 @@ function ShieldMeter({ v, wide }: { v: Variant; wide: boolean }) {
             strokeLinecap="round"
           />
         ))}
-        <motion.g
-          initial={false}
-          animate={{ rotate: -90 + v.needle * 180 }}
-          transition={{ type: 'spring', stiffness: 90, damping: 14 }}
-        >
-          {/* Invisible disc centres the group's bbox on the pivot so it rotates around (cx, cy). */}
-          <circle cx={cx} cy={cy} r={r - 20} fill="transparent" />
+        <g transform={`rotate(${deg} ${cx} ${cy})`}>
           <line x1={cx} y1={cy} x2={cx} y2={cy - r + 20} stroke="#EEF0F5" strokeWidth={5} strokeLinecap="round" />
-        </motion.g>
+        </g>
         <circle cx={cx} cy={cy} r={9} fill="#EEF0F5" />
         <circle cx={cx} cy={cy} r={4} fill="#0B0D12" />
       </svg>
@@ -164,7 +171,7 @@ export function AdjusterScene({ t, wide }: SceneProps) {
       {/* Zone switcher pills */}
       <div className="relative flex gap-1.5 rounded-full bg-white/[0.04] p-1">
         {VARIANTS.map((x, i) => (
-          <div key={x.zone} className="relative flex-1 rounded-full px-2 py-1.5 text-center text-xs font-bold md:text-sm">
+          <div key={x.zone} className="relative flex-1 whitespace-nowrap rounded-full px-1.5 py-1.5 text-center text-[11px] font-bold sm:text-xs md:text-sm">
             {i === idx && (
               <motion.div
                 layoutId="intro-zone-pill"
@@ -174,7 +181,8 @@ export function AdjusterScene({ t, wide }: SceneProps) {
               />
             )}
             <span className="relative" style={{ color: i === idx ? ZONE_META[x.zone].color : '#8A93A6' }}>
-              {ZONE_META[x.zone].emoji} {x.label} {x.charge}%
+              <span className="hidden sm:inline">{ZONE_META[x.zone].emoji} </span>
+              {x.label} {x.charge}%
             </span>
           </div>
         ))}
